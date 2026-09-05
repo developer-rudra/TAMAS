@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: #18242D;
+    background-image: 
+      radial-gradient(ellipse at 50% 0%, #222E3A 0%, #18242D 70%),
+      linear-gradient(rgba(61, 90, 104, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61, 90, 104, 0.08) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    color: #E8EDF0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Refined professional dark scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #18242D;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2D414D;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4FA3B8;
+  }
+}
+
+@layer utilities {
+  .tamas-card {
+    background-color: #202F3B;
+    border: 1px solid #3D5A68;
+    border-radius: 0.65rem;
+    box-shadow: 0 4px 16px -2px rgba(10, 18, 24, 0.4);
+  }
+
+  .tamas-card-inner {
+    background-color: #1A2834;
+    border: 1px solid #2D414D;
+    border-radius: 0.5rem;
+  }
+
+  .tamas-tag-green {
+    background-color: rgba(82, 183, 136, 0.16);
+    color: #52B788;
+    border: 1px solid rgba(82, 183, 136, 0.35);
+  }
+
+  .tamas-tag-orange {
+    background-color: rgba(232, 117, 34, 0.16);
+    color: #E87522;
+    border: 1px solid rgba(232, 117, 34, 0.35);
+  }
+
+  .tamas-tag-blue {
+    background-color: rgba(79, 163, 184, 0.16);
+    color: #4FA3B8;
+    border: 1px solid rgba(79, 163, 184, 0.35);
+  }
+}
