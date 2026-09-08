@@ -6,10 +6,18 @@ import {
   SubsystemStatus, 
   RadarContact, 
   VesselState, 
-  CTDProfilePoint 
+  CTDProfilePoint,
+  MarineMapLayers,
+  MarineMapTileStyle,
+  MapFocusTarget
 } from '../types/telemetry';
 import { simEngine } from '../services/simulationEngine';
 import { soundFx } from '../services/audioSynthesizer';
+import { 
+  MarineMapSimulationState, 
+  getInitialMarineMapState, 
+  tickMarineSimulation 
+} from '../services/marineMapData';
 
 export type AnalyticsTab = 'temp' | 'depth' | 'pressure' | 'battery' | 'wave';
 
@@ -63,6 +71,18 @@ interface MissionStore {
   // Audio settings
   audioMuted: boolean;
   toggleAudioMute: () => void;
+
+  // Marine Map Module State & Controls
+  marineMapState: MarineMapSimulationState;
+  mapLayers: MarineMapLayers;
+  mapTileStyle: MarineMapTileStyle;
+  mapFocusTarget: MapFocusTarget;
+  highlightRecoveryRoute: boolean;
+  toggleMapLayer: (layerKey: keyof MarineMapLayers) => void;
+  setMapTileStyle: (style: MarineMapTileStyle) => void;
+  setMapFocusTarget: (target: MapFocusTarget) => void;
+  setHighlightRecoveryRoute: (highlight: boolean) => void;
+  navigateToMarineMap: (focus?: MapFocusTarget) => void;
 
   // Engine clock tick
   tick: () => void;
@@ -244,6 +264,53 @@ export const useMissionStore = create<MissionStore>((set, get) => {
       set({ audioMuted: next });
     },
 
+    // Marine Map State & Actions
+    marineMapState: getInitialMarineMapState(),
+    mapLayers: {
+      showBuoy: true,
+      showPastDrift: true,
+      showPredictedDrift: true,
+      showGeofence: true,
+      showRecoveryVessel: true,
+      showWeatherOverlay: true
+    },
+    mapTileStyle: 'dark',
+    mapFocusTarget: null,
+    highlightRecoveryRoute: false,
+
+    toggleMapLayer: (layerKey) => {
+      soundFx.playTactileClick();
+      set((state) => ({
+        mapLayers: {
+          ...state.mapLayers,
+          [layerKey]: !state.mapLayers[layerKey]
+        }
+      }));
+    },
+
+    setMapTileStyle: (style) => {
+      soundFx.playTactileClick();
+      set({ mapTileStyle: style });
+    },
+
+    setMapFocusTarget: (target) => {
+      set({ mapFocusTarget: target });
+    },
+
+    setHighlightRecoveryRoute: (highlight) => {
+      soundFx.playTactileClick();
+      set({ highlightRecoveryRoute: highlight });
+    },
+
+    navigateToMarineMap: (focus = 'buoy') => {
+      soundFx.playTactileClick();
+      set({ 
+        activeNavTab: 'map',
+        mapFocusTarget: focus,
+        highlightRecoveryRoute: focus === 'route' || focus === 'vessel'
+      });
+    },
+
     tick: () => {
       const packet = simEngine.tick();
       const radar = simEngine.calculateRadarContact();
@@ -264,11 +331,13 @@ export const useMissionStore = create<MissionStore>((set, get) => {
       set((state) => {
         const newHistory = [...state.packetHistory, packet];
         if (newHistory.length > 80) newHistory.shift();
+        const updatedMarineMap = tickMarineSimulation(state.marineMapState);
         return {
           currentPacket: packet,
           packetHistory: newHistory,
           radarContact: radar,
-          vessel: vessel
+          vessel: vessel,
+          marineMapState: updatedMarineMap
         };
       });
     }

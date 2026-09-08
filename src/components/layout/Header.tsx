@@ -191,6 +191,7 @@ export const Header: React.FC = () => {
           {[
             { id: 'monitoring', label: 'Live Monitoring' },
             { id: 'device', label: 'Device Overview' },
+            { id: 'map', label: 'Marine Map' },
             { id: 'ocean', label: 'Ocean Data' },
             { id: 'alerts', label: 'Alerts' }
           ].map((tab) => {

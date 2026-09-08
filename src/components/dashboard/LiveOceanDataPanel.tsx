@@ -9,7 +9,8 @@ import {
   Droplets, 
   Crosshair, 
   Maximize2,
-  AlertTriangle
+  AlertTriangle,
+  MapPin
 } from 'lucide-react';
 
 export const LiveOceanDataPanel: React.FC = () => {
@@ -18,7 +19,8 @@ export const LiveOceanDataPanel: React.FC = () => {
     radarContact, 
     vessel,
     openDistressModal,
-    triggerIcebergAnomaly 
+    triggerIcebergAnomaly,
+    navigateToMarineMap
   } = useMissionStore();
 
   const sonarCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -286,11 +288,11 @@ export const LiveOceanDataPanel: React.FC = () => {
             <div className="flex justify-between">
               <span className="text-[11px] text-tamas-textMuted">Last Update</span>
               <span className="text-xs font-mono text-tamas-text">2 sec ago</span>
-            </div>
-
-            <button className="w-full mt-2 py-1 rounded bg-[#1A2733] hover:bg-[#243442] border border-tamas-border/50 text-[11px] font-medium text-tamas-text flex items-center justify-center space-x-1 transition-colors">
-              <Maximize2 className="w-3 h-3 text-tamas-info" />
-              <span>Expand Radar</span>
+            </div>            <button 
+              onClick={() => navigateToMarineMap('route')}
+              className="w-full mt-2 py-1.5 rounded bg-[#1A2834] hover:bg-[#243442] border border-tamas-border/60 text-[11px] font-bold text-tamas-info flex items-center justify-center space-x-1.5 transition-colors shadow-sm"
+            >
+              <span>VIEW ON MARINE MAP →</span>
             </button>
           </div>
 
@@ -311,7 +313,7 @@ export const LiveOceanDataPanel: React.FC = () => {
         </div>
 
         {/* Anomaly Card */}
-        <div className="p-3 rounded-lg bg-[#1A2733] border border-tamas-warning/40 space-y-2">
+        <div className="p-3 rounded-lg bg-[#1A2834] border border-tamas-warning/40 space-y-2">
           
           <div className="flex items-start space-x-2">
             <AlertTriangle className="w-4 h-4 text-tamas-warning mt-0.5 flex-shrink-0" />
@@ -331,21 +333,29 @@ export const LiveOceanDataPanel: React.FC = () => {
             <span>2 min ago</span>
           </div>
 
-          {/* Two Action Buttons */}
-          <div className="flex items-center space-x-2 pt-1">
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 gap-2 pt-1">
             <button
               onClick={openDistressModal}
-              className="flex-1 py-1.5 rounded-md bg-[#202F3B] hover:bg-[#263745] border border-tamas-border/60 text-xs font-semibold text-tamas-text transition-colors text-center"
+              className="py-1.5 rounded-md bg-[#202F3B] hover:bg-[#263745] border border-tamas-border/60 text-xs font-semibold text-tamas-text transition-colors text-center"
             >
               View Details
             </button>
             <button
               onClick={() => triggerIcebergAnomaly(false)}
-              className="flex-1 py-1.5 rounded-md bg-tamas-orange hover:bg-orange-600 text-white text-xs font-bold tracking-wide transition-colors text-center shadow-sm"
+              className="py-1.5 rounded-md bg-tamas-orange hover:bg-orange-600 text-white text-xs font-bold tracking-wide transition-colors text-center shadow-sm"
             >
               Run Diagnostic
             </button>
           </div>
+
+          <button
+            onClick={() => navigateToMarineMap('buoy')}
+            className="w-full py-1.5 rounded bg-[#16222C] hover:bg-[#1E2E3C] border border-tamas-border/50 text-[11px] font-semibold text-tamas-info flex items-center justify-center space-x-1.5 transition-colors"
+          >
+            <MapPin className="w-3.5 h-3.5 text-tamas-info" />
+            <span>VIEW LOCATION ON MAP</span>
+          </button>
 
         </div>
 

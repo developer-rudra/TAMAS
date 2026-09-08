@@ -12,6 +12,7 @@ import { PolarDriftMap } from './components/ocean/PolarDriftMap';
 import { CTDDepthProfiler } from './components/ocean/CTDDepthProfiler';
 import { HexDecoderStudio } from './components/ocean/HexDecoderStudio';
 import { AtmosphericStripCharts } from './components/ocean/AtmosphericStripCharts';
+import { MarineMap } from './components/map/MarineMap';
 
 export const App: React.FC = () => {
   const { 
@@ -126,7 +127,12 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 3: OCEAN DATA (Polar Drift, CTD Profiler, Atmospheric Strip Charts, Hex Decoder) */}
+        {/* TAB 3: MARINE MAP (Interactive GIS, Buoy Telemetry, Drift Trail, Geofence, Recovery Intercept) */}
+        {activeNavTab === 'map' && (
+          <MarineMap />
+        )}
+
+        {/* TAB 4: OCEAN DATA (Polar Drift, CTD Profiler, Atmospheric Strip Charts, Hex Decoder) */}
         {activeNavTab === 'ocean' && (
           <div className="space-y-4">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">

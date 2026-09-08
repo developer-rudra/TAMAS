@@ -1,6 +1,71 @@
 export type ActiveRole = 'sar' | 'oceanographic';
 
-export type ActiveNavTab = 'monitoring' | 'device' | 'ocean' | 'alerts';
+export type ActiveNavTab = 'monitoring' | 'device' | 'map' | 'ocean' | 'alerts';
+
+export type MarineMapTileStyle = 'dark' | 'ocean' | 'osm';
+
+export type MapFocusTarget = 'buoy' | 'vessel' | 'route' | 'geofence' | null;
+
+export interface MarineMapLayers {
+  showBuoy: boolean;
+  showPastDrift: boolean;
+  showPredictedDrift: boolean;
+  showGeofence: boolean;
+  showRecoveryVessel: boolean;
+  showWeatherOverlay: boolean;
+}
+
+export interface BreadcrumbPoint {
+  lat: number;
+  lng: number;
+  timestamp: string;
+  speedKnots: number;
+}
+
+export interface MarineBuoyTelemetry {
+  latitude: number;
+  longitude: number;
+  driftSpeedKnots: number;
+  headingDeg: number;
+  headingCardinal: string;
+  depthMeters: number;
+  temperatureC: number;
+  batteryPercentage: number;
+  batteryVoltage: number;
+  status: 'Operational' | 'Warning' | 'Critical';
+  lastUpdatedText: string;
+  waveHeightM?: number;
+  salinityPsu?: number;
+}
+
+export interface OceanAnalyticsPoint {
+  timestamp: string;
+  hourLabel: string;
+  currentMs: number; // m/s
+  windKnots: number; // kts
+  waveHeightM: number; // meters
+}
+
+export interface RecoveryVesselInfo {
+  name: string;
+  callsign: string;
+  latitude: number;
+  longitude: number;
+  headingDeg: number;
+  speedKnots: number;
+  distanceKm: number;
+  distanceNm: number;
+  etaMinutes: number;
+  status: 'En Route' | 'Standing By' | 'Intercepting';
+}
+
+export interface GeofenceConfig {
+  centerLat: number;
+  centerLng: number;
+  radiusKm: number;
+  isInside: boolean;
+  distanceFromCenterKm: number;
+}
 
 export type UplinkMode = 'INSAT_DRT' | 'ARGOS_POLAR' | 'SASR_DISTRESS';
 
