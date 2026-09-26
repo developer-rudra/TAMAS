@@ -60,58 +60,60 @@ export const Header: React.FC = () => {
           
           {/* Left: T.A.M.A.S. Logo + Title + Status Pill */}
           <div className="flex items-center space-x-3.5">
-            {/* Custom Tactical Buoy Hub Icon */}
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-tamas-card border border-tamas-border text-tamas-info shadow-sm">
+            {/* Custom High-Tech Oceanic Buoy Hub Icon */}
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-tamas-card border border-tamas-border text-tamas-cyan shadow-lg shadow-cyan-950/40">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="3" fill="#4FA3B8" />
-                <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
+                <circle cx="12" cy="12" r="3" fill="#00E5FF" />
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
               </svg>
+              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-tamas-operational border-2 border-[#06121C] animate-pulse" />
             </div>
 
             <div>
               <div className="flex items-center space-x-2.5">
-                <h1 className="font-extrabold text-lg tracking-widest text-tamas-text font-sans">
+                <h1 className="font-extrabold text-xl tracking-widest text-tamas-text font-sans">
                   T.A.M.A.S.
                 </h1>
                 
-                {/* System Status Pill */}
+                {/* System Online / Emergency Pill */}
                 <div className={`flex items-center space-x-1.5 text-xs px-2.5 py-0.5 rounded-full font-medium ${
                   isDistress 
                     ? 'bg-tamas-critical/15 text-tamas-critical border border-tamas-critical/40 animate-pulse'
                     : 'tamas-tag-green'
                 }`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${isDistress ? 'bg-tamas-critical' : 'bg-tamas-operational'}`} />
-                  <span className="font-semibold text-[11px] tracking-wide">
+                  <span className="font-semibold text-[11px] tracking-wider uppercase">
                     {isDistress ? 'EMERGENCY TAKEOVER' : 'SYSTEM ONLINE'}
                   </span>
                 </div>
               </div>
               
-              <p className="text-[11px] text-tamas-textMuted tracking-normal">
-                Tactical Autonomous Marine Analysis System
+              <p className="text-[11px] font-medium text-tamas-textMuted tracking-tight">
+                Telemetry Array for Marine and Atmospheric Sensing
               </p>
             </div>
           </div>
 
-          {/* Right: Mission Metadata */}
-          <div className="flex items-center space-x-6 text-xs text-tamas-textMuted">
+          {/* Right: Mission Metadata & Controls */}
+          <div className="flex items-center space-x-5 text-xs text-tamas-textMuted">
             
             {/* Mission Status */}
             <div className="hidden sm:block text-right">
-              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block">
+              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block font-mono">
                 MISSION STATUS
               </span>
-              <span className="text-xs font-semibold text-tamas-text">
-                Monitoring Mission
+              <span className="text-xs font-semibold text-tamas-cyan flex items-center justify-end space-x-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-tamas-cyan animate-ping inline-block" />
+                <span>SURFACE DRIFT ACTIVE</span>
               </span>
             </div>
 
             {/* Last Updated */}
             <div className="hidden md:block text-right">
-              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block">
+              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block font-mono">
                 LAST UPDATED
               </span>
-              <span className="text-xs font-mono font-medium text-tamas-text">
+              <span className="text-xs font-mono font-bold text-tamas-text">
                 {utcTime}
               </span>
               <span className="text-[10px] text-tamas-textMuted block font-mono">
@@ -119,32 +121,32 @@ export const Header: React.FC = () => {
               </span>
             </div>
 
-            {/* Connection */}
+            {/* Connection Status */}
             <div className="hidden lg:block text-right">
-              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block">
-                CONNECTION
+              <span className="text-[10px] tracking-wider uppercase text-tamas-textMuted/70 block font-mono">
+                CONNECTION STATUS
               </span>
-              <div className="flex items-center justify-end space-x-1.5 text-xs font-medium text-tamas-operational">
+              <div className="flex items-center justify-end space-x-1.5 text-xs font-medium text-tamas-operational font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-tamas-operational" />
-                <span>Connected</span>
+                <span>4.8 KBPS LOCKED</span>
                 <Signal className="w-3.5 h-3.5 text-tamas-operational inline ml-0.5" />
               </div>
             </div>
 
-            {/* Simulation Speed & Mute Tray */}
-            <div className="flex items-center bg-tamas-card px-2 py-1 rounded-lg border border-tamas-border space-x-1 text-xs">
+            {/* Simulation Speed & Controls */}
+            <div className="flex items-center bg-tamas-card px-2.5 py-1.5 rounded-xl border border-tamas-border space-x-1.5 text-xs shadow-inner">
               <button
                 onClick={togglePause}
                 title={isPaused ? "Resume Simulation" : "Pause Simulation"}
-                className={`p-1 rounded hover:bg-tamas-bg ${isPaused ? 'text-tamas-warning' : 'text-tamas-textMuted hover:text-white'}`}
+                className={`p-1 rounded-lg transition-colors ${isPaused ? 'bg-tamas-warning/20 text-tamas-warning' : 'text-tamas-textMuted hover:text-tamas-cyan'}`}
               >
-                {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
+                {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
               </button>
 
               <button
                 onClick={() => setSimulationSpeed(1.0)}
-                className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
-                  simulationSpeed === 1.0 && !isPaused ? 'bg-tamas-bg text-tamas-info font-bold' : 'text-tamas-textMuted'
+                className={`px-2 py-0.5 rounded-lg text-[11px] font-mono transition-colors ${
+                  simulationSpeed === 1.0 && !isPaused ? 'bg-tamas-bg text-tamas-cyan font-bold border border-tamas-cyan/30' : 'text-tamas-textMuted hover:text-white'
                 }`}
               >
                 1x
@@ -152,33 +154,38 @@ export const Header: React.FC = () => {
 
               <button
                 onClick={() => setSimulationSpeed(5.0)}
-                className={`flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono ${
-                  simulationSpeed === 5.0 && !isPaused ? 'bg-tamas-bg text-tamas-info font-bold' : 'text-tamas-textMuted'
+                className={`flex items-center px-2 py-0.5 rounded-lg text-[11px] font-mono transition-colors ${
+                  simulationSpeed === 5.0 && !isPaused ? 'bg-tamas-bg text-tamas-cyan font-bold border border-tamas-cyan/30' : 'text-tamas-textMuted hover:text-white'
                 }`}
               >
-                <FastForward className="w-2.5 h-2.5 mr-0.5" />
+                <FastForward className="w-3 h-3 mr-0.5" />
                 <span>5x</span>
               </button>
 
               <button
                 onClick={toggleAudioMute}
                 title={audioMuted ? "Unmute Audio" : "Mute Audio"}
-                className="p-1 rounded text-tamas-textMuted hover:text-white"
+                className="p-1 rounded-lg text-tamas-textMuted hover:text-tamas-cyan transition-colors"
               >
-                {audioMuted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3 text-tamas-info" />}
+                {audioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-tamas-cyan" />}
               </button>
             </div>
 
-            {/* Icons */}
-            <div className="flex items-center space-x-2 text-tamas-textMuted">
-              <button className="p-1.5 rounded-md hover:bg-tamas-card hover:text-white transition-colors">
+            {/* User Controls */}
+            <div className="flex items-center space-x-1.5 text-tamas-textMuted">
+              <button 
+                onClick={() => setActiveNavTab('alerts')}
+                title="System Alerts"
+                className="p-2 rounded-xl bg-tamas-card border border-tamas-border hover:border-tamas-cyan/40 hover:text-tamas-cyan transition-colors relative"
+              >
                 <Bell className="w-4 h-4" />
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-tamas-warning" />
               </button>
-              <button className="p-1.5 rounded-md hover:bg-tamas-card hover:text-white transition-colors">
+              <button 
+                title="Settings"
+                className="p-2 rounded-xl bg-tamas-card border border-tamas-border hover:border-tamas-cyan/40 hover:text-tamas-cyan transition-colors"
+              >
                 <Settings className="w-4 h-4" />
-              </button>
-              <button className="p-1.5 rounded-md hover:bg-tamas-card hover:text-white transition-colors">
-                <Menu className="w-4 h-4" />
               </button>
             </div>
 

@@ -187,9 +187,9 @@ export const MarineBuoy3D: React.FC<MarineBuoy3DProps> = ({
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // Rich dual-zone marine atmosphere (Sky above, deep ocean below)
-    scene.background = new THREE.Color(0x13202a);
-    scene.fog = new THREE.FogExp2(0x0e1b24, 0.045);
+    // Rich dual-zone deep-ocean atmosphere
+    scene.background = new THREE.Color(0x06121c);
+    scene.fog = new THREE.FogExp2(0x06121c, 0.038);
 
     // CAMERA
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
@@ -234,12 +234,12 @@ export const MarineBuoy3D: React.FC<MarineBuoy3DProps> = ({
     scene.add(sunLight);
 
     // Underwater deep-blue bounce fill
-    const waterBounce = new THREE.DirectionalLight(0x1d4e6d, 1.4);
+    const waterBounce = new THREE.DirectionalLight(0x0b2d47, 1.6);
     waterBounce.position.set(-5, -4, -4);
     scene.add(waterBounce);
 
-    // Soft rim specular
-    const rimLight = new THREE.DirectionalLight(0x4fa3b8, 1.1);
+    // Soft electric cyan rim specular
+    const rimLight = new THREE.DirectionalLight(0x00e5ff, 1.4);
     rimLight.position.set(0, 4, -8);
     scene.add(rimLight);
 
@@ -627,71 +627,70 @@ export const MarineBuoy3D: React.FC<MarineBuoy3DProps> = ({
       {/* 3D WebGL Canvas Container */}
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
-      {/* FLOATING LEFT CONTROLS TOOLBAR (Matching Reference Image) */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center space-y-2 bg-[#1A2834]/80 backdrop-blur-md p-1.5 rounded-xl border border-tamas-border/60 shadow-lg text-xs">
+      {/* FLOATING LEFT CONTROLS TOOLBAR */}
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center space-y-2 bg-[#0B1D2A]/90 backdrop-blur-md p-1.5 rounded-2xl border border-tamas-border shadow-2xl text-xs">
         
         {/* Rotate Button */}
         <button
           title="Click and drag with left mouse to rotate"
-          className="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-[#202F3B]/80 hover:bg-[#283C4B] text-tamas-info transition-colors border border-tamas-border/40"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-[#102738] hover:bg-[#16354D] text-tamas-cyan transition-colors border border-tamas-borderSubtle"
         >
-          <RotateCw className="w-4 h-4 text-tamas-info" />
-          <span className="text-[9px] font-medium text-tamas-textMuted mt-0.5">Rotate</span>
+          <RotateCw className="w-4 h-4 text-tamas-cyan" />
+          <span className="text-[9px] font-mono text-tamas-textMuted mt-0.5">Rotate</span>
         </button>
 
         {/* Zoom Button */}
         <button
           title="Scroll mouse wheel to zoom in/out"
-          className="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-[#202F3B]/80 hover:bg-[#283C4B] text-tamas-textMuted hover:text-white transition-colors border border-tamas-border/40"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-[#102738] hover:bg-[#16354D] text-tamas-textMuted hover:text-tamas-cyan transition-colors border border-tamas-borderSubtle"
         >
           <ZoomIn className="w-4 h-4" />
-          <span className="text-[9px] font-medium text-tamas-textMuted mt-0.5">Zoom</span>
+          <span className="text-[9px] font-mono text-tamas-textMuted mt-0.5">Zoom</span>
         </button>
 
         {/* Pan Button */}
         <button
           title="Drag with right mouse button to pan"
-          className="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-[#202F3B]/80 hover:bg-[#283C4B] text-tamas-textMuted hover:text-white transition-colors border border-tamas-border/40"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-[#102738] hover:bg-[#16354D] text-tamas-textMuted hover:text-tamas-cyan transition-colors border border-tamas-borderSubtle"
         >
           <Move className="w-4 h-4" />
-          <span className="text-[9px] font-medium text-tamas-textMuted mt-0.5">Pan</span>
+          <span className="text-[9px] font-mono text-tamas-textMuted mt-0.5">Pan</span>
         </button>
 
         {/* Reset View Button */}
         <button
           onClick={handleResetView}
           title="Reset camera view to default perspective"
-          className="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-[#202F3B]/80 hover:bg-[#283C4B] text-tamas-textMuted hover:text-white transition-colors border border-tamas-border/40"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-[#102738] hover:bg-[#16354D] text-tamas-textMuted hover:text-tamas-cyan transition-colors border border-tamas-borderSubtle"
         >
           <Home className="w-4 h-4" />
-          <span className="text-[9px] font-medium text-tamas-textMuted mt-0.5">Reset View</span>
+          <span className="text-[9px] font-mono text-tamas-textMuted mt-0.5">Reset</span>
         </button>
 
         {/* Auto Rotate Toggle */}
         <button
           onClick={() => setAutoRotate(!autoRotate)}
           title="Toggle Auto Rotation ON/OFF"
-          className="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-[#202F3B]/80 hover:bg-[#283C4B] transition-colors border border-tamas-border/40"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-[#102738] hover:bg-[#16354D] transition-colors border border-tamas-borderSubtle"
         >
-          <span className="text-[9px] font-medium text-tamas-textMuted">Auto</span>
-          <span className="text-[9px] font-medium text-tamas-textMuted">Rotate</span>
-          <span className={`text-[10px] font-bold mt-0.5 ${autoRotate ? 'text-tamas-info' : 'text-tamas-textMuted/60'}`}>
+          <span className="text-[9px] font-mono text-tamas-textMuted">Auto</span>
+          <span className={`text-[10px] font-mono font-bold mt-0.5 ${autoRotate ? 'text-tamas-cyan' : 'text-tamas-textMuted/60'}`}>
             {autoRotate ? 'ON' : 'OFF'}
           </span>
         </button>
 
       </div>
 
-      {/* FLOATING NAUTICAL COMPASS ROSE (Bottom Right, matching Reference Image) */}
-      <div className="absolute right-5 bottom-5 z-20 pointer-events-none flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-tamas-border/60 bg-[#1A2834]/60 backdrop-blur-sm">
-        <div className="absolute inset-1.5 rounded-full border border-dashed border-tamas-border/40" />
+      {/* FLOATING NAUTICAL COMPASS ROSE */}
+      <div className="absolute right-4 bottom-4 z-20 pointer-events-none flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-tamas-border bg-[#0B1D2A]/80 backdrop-blur-md shadow-xl">
+        <div className="absolute inset-1.5 rounded-full border border-dashed border-tamas-border/60" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full h-px bg-tamas-border/30" />
-          <div className="h-full w-px bg-tamas-border/30 absolute" />
+          <div className="w-full h-px bg-tamas-border/40" />
+          <div className="h-full w-px bg-tamas-border/40 absolute" />
         </div>
         
         {/* Cardinal Points */}
-        <span className="absolute top-1 text-[9px] font-bold text-tamas-info font-mono">N</span>
+        <span className="absolute top-1 text-[9px] font-bold text-tamas-cyan font-mono">N</span>
         <span className="absolute right-1 text-[9px] font-bold text-tamas-textMuted font-mono">E</span>
         <span className="absolute bottom-1 text-[9px] font-bold text-tamas-textMuted font-mono">S</span>
         <span className="absolute left-1 text-[9px] font-bold text-tamas-textMuted font-mono">W</span>

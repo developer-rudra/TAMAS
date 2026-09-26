@@ -3,17 +3,16 @@ import { useMissionStore } from '../../store/useMissionStore';
 import { SubsystemStatus } from '../../types/telemetry';
 import { 
   Cpu, 
-  Radio, 
   BatteryCharging, 
   Wifi, 
   Share2, 
-  Upload, 
-  ChevronRight 
+  UploadCloud, 
+  Activity,
+  Layers
 } from 'lucide-react';
 
 export const SystemHealthPanel: React.FC = () => {
   const { 
-    subsystems, 
     selectedHotspotId, 
     setSelectedHotspotId,
     currentPacket 
@@ -25,150 +24,120 @@ export const SystemHealthPanel: React.FC = () => {
     {
       id: 'core_avionics',
       title: 'Core Avionics',
-      statusText: isDistress ? 'Distress Override' : 'Operational',
-      icon: <Cpu className="w-4 h-4 text-tamas-info" />,
+      state: isDistress ? 'Emergency Override' : 'Operational',
+      subtext: 'ARM-Cortex M7 • Dual Redundant',
+      icon: <Cpu className="w-4 h-4 text-tamas-cyan" />,
       isOk: !isDistress,
       hotspotId: 'core_avionics' as SubsystemStatus['id']
     },
     {
       id: 'sensor_suite',
       title: 'Sensor Array',
-      statusText: 'All Sensors Connected',
-      icon: (
-        <svg className="w-4 h-4 text-tamas-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 2a10 10 0 0 0-10 10c0 4.4 2.9 8.2 7 9.5M12 6a6 6 0 0 0-6 6c0 2.6 1.7 4.9 4.2 5.7M12 10a2 2 0 0 0-2 2" />
-          <path d="M12 2a10 10 0 0 1 10 10c0 4.4-2.9 8.2-7 9.5M12 6a6 6 0 0 1 6 6c0 2.6-1.7 4.9-4.2 5.7M12 10a2 2 0 0 1 2 2" />
-        </svg>
-      ),
+      state: 'All Sensors Connected',
+      subtext: '6/6 Oceanographic Dies Active',
+      icon: <Activity className="w-4 h-4 text-tamas-turquoise" />,
       isOk: true,
       hotspotId: 'sensor_suite' as SubsystemStatus['id']
     },
     {
       id: 'power_reservoir',
       title: 'Power System',
-      statusText: '82% Available',
-      icon: <BatteryCharging className="w-4 h-4 text-tamas-info" />,
+      state: `${Math.round(currentPacket.power.hlcChargePercentage)}% Available`,
+      subtext: `${currentPacket.power.lisocl2CellVoltage}V Bus • HLC Buffered`,
+      icon: <BatteryCharging className="w-4 h-4 text-tamas-cyan" />,
       isOk: true,
       hotspotId: 'power_reservoir' as SubsystemStatus['id']
     },
     {
       id: 'telemetry',
       title: 'Telemetry',
-      statusText: 'Connected',
-      icon: <Wifi className="w-4 h-4 text-tamas-info" />,
+      state: 'Connected',
+      subtext: 'INSAT-DRT Carrier Locked',
+      icon: <Wifi className="w-4 h-4 text-tamas-turquoise" />,
       isOk: true,
       hotspotId: 'core_avionics' as SubsystemStatus['id']
     },
     {
       id: 'pte_suspension',
       title: 'PTE Suspension & Hub',
-      statusText: 'Stable',
-      icon: <Share2 className="w-4 h-4 text-tamas-info" />,
+      state: 'Stable',
+      subtext: `${currentPacket.pte.pdmsFluidPressureBar} Bar • Bellows Zero-Void`,
+      icon: <Share2 className="w-4 h-4 text-tamas-cyan" />,
       isOk: true,
       hotspotId: 'pte_suspension' as SubsystemStatus['id']
     },
     {
       id: 'uplink',
       title: 'Telemetry Uplink',
-      statusText: 'Data Flowing',
-      icon: <Upload className="w-4 h-4 text-tamas-info" />,
+      state: 'Data Flowing',
+      subtext: '4.8 kbps Burst Mode SBD',
+      icon: <UploadCloud className="w-4 h-4 text-tamas-turquoise" />,
       isOk: true,
       hotspotId: 'core_avionics' as SubsystemStatus['id']
     }
   ];
 
   return (
-    <div className="space-y-3.5 flex flex-col h-full select-none">
+    <div className="tamas-card p-4 sm:p-5 flex flex-col justify-between select-none">
       
-      {/* TOP CARD: SYSTEM HEALTH (Matching Reference Image) */}
-      <div className="tamas-card p-4 sm:p-5 flex-1 space-y-3">
-        
-        {/* Card Header */}
-        <div className="flex items-center justify-between border-b border-tamas-border/60 pb-3">
-          <h2 className="text-sm font-bold tracking-wider text-tamas-text uppercase">
+      {/* Section Header */}
+      <div className="flex items-center justify-between border-b border-tamas-border/60 pb-3 mb-3">
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 rounded-full bg-tamas-cyan shadow-sm shadow-cyan-500/50" />
+          <h2 className="text-xs font-bold tracking-wider text-tamas-text uppercase font-sans">
             SYSTEM HEALTH
           </h2>
-          <span className="text-[11px] px-2.5 py-0.5 rounded-full tamas-tag-green font-semibold">
-            ALL SYSTEMS NOMINAL
-          </span>
         </div>
-
-        {/* 6 Subsystem Rows */}
-        <div className="space-y-1.5">
-          {healthItems.map((item) => {
-            const isSelected = selectedHotspotId === item.hotspotId;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setSelectedHotspotId(item.hotspotId)}
-                className={`w-full p-2.5 rounded-lg flex items-center justify-between text-left transition-all border ${
-                  isSelected
-                    ? 'bg-[#263847] border-tamas-info/50 shadow-sm'
-                    : 'bg-[#1A2733] border-transparent hover:border-tamas-border/60 hover:bg-[#202E3C]'
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#202F3B] border border-tamas-border/60 text-tamas-info">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-tamas-text block">
-                      {item.title}
-                    </span>
-                    <span className={`text-[11px] font-medium block ${item.isOk ? 'text-tamas-operational' : 'text-tamas-critical'}`}>
-                      {item.statusText}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Status Dot */}
-                <div className="flex items-center space-x-2">
-                  <span className={`w-2 h-2 rounded-full ${item.isOk ? 'bg-tamas-operational' : 'bg-tamas-critical animate-pulse'}`} />
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* View All Systems Button */}
-        <button className="w-full py-2 rounded-lg bg-[#1A2733] hover:bg-[#243442] border border-tamas-border/50 text-xs font-semibold text-tamas-text transition-colors text-center mt-2 block">
-          View All Systems
-        </button>
-
+        <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider font-mono ${
+          isDistress ? 'tamas-tag-red animate-pulse' : 'tamas-tag-green'
+        }`}>
+          {isDistress ? 'ANOMALY DETECTED' : 'ALL SYSTEMS NOMINAL'}
+        </span>
       </div>
 
-      {/* BOTTOM CARD: SYSTEM SUMMARY (Matching Reference Image) */}
-      <div className="tamas-card p-4 space-y-2.5">
-        <h3 className="text-xs font-bold text-tamas-text uppercase tracking-wider border-b border-tamas-border/60 pb-2">
-          SYSTEM SUMMARY
-        </h3>
+      {/* 6 Subsystem Rows */}
+      <div className="space-y-2">
+        {healthItems.map((item) => {
+          const isSelected = selectedHotspotId === item.hotspotId;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setSelectedHotspotId(item.hotspotId)}
+              className={`w-full p-2.5 rounded-xl flex items-center justify-between text-left transition-all border group ${
+                isSelected
+                  ? 'bg-tamas-cardLight border-tamas-cyan/60 shadow-md shadow-cyan-950/40'
+                  : 'bg-tamas-cardInner border-tamas-borderSubtle hover:border-tamas-borderLight hover:bg-[#0E2333]'
+              }`}
+            >
+              <div className="flex items-center space-x-3 min-w-0">
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0F283C] border border-tamas-border/70 group-hover:border-tamas-cyan/50 transition-colors flex-shrink-0">
+                  {item.icon}
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs font-semibold text-tamas-text block truncate group-hover:text-tamas-cyan transition-colors">
+                      {item.title}
+                    </span>
+                  </div>
+                  <span className={`text-[11px] font-mono font-medium block truncate ${
+                    item.isOk ? 'text-tamas-operational' : 'text-tamas-critical'
+                  }`}>
+                    {item.state}
+                  </span>
+                </div>
+              </div>
 
-        <div className="space-y-1.5 text-xs font-mono">
-          <div className="flex justify-between items-center text-tamas-textMuted">
-            <span className="font-sans text-[11px]">Operational Uptime</span>
-            <span className="font-bold text-tamas-text">34d 16h 22m</span>
-          </div>
-
-          <div className="flex justify-between items-center text-tamas-textMuted">
-            <span className="font-sans text-[11px]">Primary Battery</span>
-            <span className="font-bold text-tamas-text">3.63 V</span>
-          </div>
-
-          <div className="flex justify-between items-center text-tamas-textMuted">
-            <span className="font-sans text-[11px]">Hull Seal</span>
-            <span className="font-bold text-tamas-operational">Hermetic PASS</span>
-          </div>
-
-          <div className="flex justify-between items-center text-tamas-textMuted">
-            <span className="font-sans text-[11px]">System Integrity</span>
-            <span className="font-bold text-tamas-text">98.2%</span>
-          </div>
-
-          <div className="flex justify-between items-center text-tamas-textMuted pt-1 border-t border-tamas-border/30">
-            <span className="font-sans text-[11px] text-tamas-warning">Active Alerts</span>
-            <span className="font-bold text-tamas-warning">1</span>
-          </div>
-        </div>
+              {/* Status Indicator */}
+              <div className="flex items-center space-x-1.5 flex-shrink-0 pl-2">
+                <span className={`w-2 h-2 rounded-full ${
+                  item.isOk 
+                    ? 'bg-tamas-operational shadow-sm shadow-emerald-500/50' 
+                    : 'bg-tamas-critical animate-ping'
+                }`} />
+              </div>
+            </button>
+          );
+        })}
       </div>
 
     </div>

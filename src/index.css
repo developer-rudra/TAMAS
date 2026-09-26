@@ -10,13 +10,13 @@
   }
   
   body {
-    background-color: #18242D;
+    background-color: #06121C;
     background-image: 
-      radial-gradient(ellipse at 50% 0%, #222E3A 0%, #18242D 70%),
-      linear-gradient(rgba(61, 90, 104, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(61, 90, 104, 0.08) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
-    color: #E8EDF0;
+      radial-gradient(ellipse at 50% 0%, #0B1D2A 0%, #06121C 75%),
+      linear-gradient(rgba(26, 59, 84, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 59, 84, 0.12) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    color: #F0F6FC;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
@@ -27,47 +27,64 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #18242D;
+    background: #06121C;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2D414D;
+    background: #1A3B54;
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #4FA3B8;
+    background: #00E5FF;
   }
 }
 
 @layer utilities {
   .tamas-card {
-    background-color: #202F3B;
-    border: 1px solid #3D5A68;
-    border-radius: 0.65rem;
-    box-shadow: 0 4px 16px -2px rgba(10, 18, 24, 0.4);
+    background-color: #102738;
+    border: 1px solid #1A3B54;
+    border-radius: 1.125rem; /* 18px card radius */
+    box-shadow: 0 8px 30px -4px rgba(2, 8, 14, 0.65), 0 1px 2px 0 rgba(0, 229, 255, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tamas-card:hover {
+    border-color: #244F70;
   }
 
   .tamas-card-inner {
-    background-color: #1A2834;
-    border: 1px solid #2D414D;
-    border-radius: 0.5rem;
+    background-color: #091824;
+    border: 1px solid #122A3D;
+    border-radius: 0.75rem; /* 12px inner radius */
   }
 
   .tamas-tag-green {
-    background-color: rgba(82, 183, 136, 0.16);
-    color: #52B788;
-    border: 1px solid rgba(82, 183, 136, 0.35);
+    background-color: rgba(16, 185, 129, 0.14);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+  }
+
+  .tamas-tag-cyan {
+    background-color: rgba(0, 229, 255, 0.12);
+    color: #00E5FF;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+  }
+
+  .tamas-tag-amber {
+    background-color: rgba(245, 158, 11, 0.14);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.35);
   }
 
   .tamas-tag-orange {
-    background-color: rgba(232, 117, 34, 0.16);
-    color: #E87522;
-    border: 1px solid rgba(232, 117, 34, 0.35);
+    background-color: rgba(249, 115, 22, 0.15);
+    color: #F97316;
+    border: 1px solid rgba(249, 115, 22, 0.35);
   }
 
-  .tamas-tag-blue {
-    background-color: rgba(79, 163, 184, 0.16);
-    color: #4FA3B8;
-    border: 1px solid rgba(79, 163, 184, 0.35);
+  .tamas-tag-red {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.35);
   }
 
   /* Leaflet Dark Mission Control Customizations */

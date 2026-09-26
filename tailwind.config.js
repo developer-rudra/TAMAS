@@ -9,19 +9,24 @@ export default {
     extend: {
       colors: {
         tamas: {
-          bg: '#18242D',         // Primary Background
-          bgSecondary: '#222E3A',// Secondary Background
-          card: '#202F3B',       // Card Background
-          cardLight: '#263745',  // Elevated Card
-          border: '#3D5A68',     // Border
-          borderSubtle: '#2D414D', // Subtle inner border
-          text: '#E8EDF0',       // Primary Text
-          textMuted: '#9AA9B5',  // Secondary Text
-          operational: '#52B788',// Green / Operational
-          info: '#4FA3B8',       // Cyan / Blue / Information
-          warning: '#F1A340',    // Amber / Warning
-          critical: '#D9574B',   // Red / Critical
-          orange: '#E87522',     // Marine Orange (Buoyancy collar & Authorize Drop)
+          bg: '#06121C',            // Near-black navy primary background
+          bgSecondary: '#0B1D2A',   // Deep blue secondary surface
+          card: '#102738',          // Elevated card background
+          cardLight: '#16354D',     // Highlight / hover card surface
+          cardInner: '#091824',     // Deep inset card surface
+          border: '#1A3B54',        // Clean subtle border
+          borderSubtle: '#122A3D',  // Inset subtle border
+          borderLight: '#244F70',   // Active border highlight
+          text: '#F0F6FC',          // Crisp high-contrast white text
+          textMuted: '#7E99AC',     // Secondary data text
+          cyan: '#00E5FF',          // Primary accent: Electric cyan
+          ocean: '#00B4D8',         // Primary accent: Ocean blue
+          info: '#00E5FF',          // Primary accent link
+          turquoise: '#06D6A0',     // Secondary accent: Turquoise
+          operational: '#10B981',   // Success: Emerald green
+          warning: '#F59E0B',       // Warning: Amber
+          critical: '#EF4444',      // Critical: Orange/Red
+          orange: '#F97316',        // Safety orange (Buoy collar & Drop trigger)
         }
       },
       fontFamily: {
